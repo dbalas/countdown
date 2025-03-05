@@ -80,6 +80,15 @@
 {#if isTargetReached}
   <div class="celebration">
     <h1>It's the day!</h1>
+    <div class="video-container">
+      <iframe
+        src="https://www.youtube.com/embed/y1deXfE34iE?autoplay=1&loop=1&controls=0"
+        title="Celebration video"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
   </div>
 {:else}
   <div class="countdown">
@@ -159,11 +168,25 @@
 
   .celebration {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     width: 100%;
     background: #fff;
+    gap: 2rem;
+  }
+
+  .video-container {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 9/16;
+  }
+
+  .video-container iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
   }
 
   @keyframes backgroundBlink {
@@ -184,6 +207,7 @@
     text-align: center;
     animation: pulse 2s infinite;
     text-transform: uppercase;
+    margin: 0;
   }
 
   .gif-container {
@@ -218,6 +242,10 @@
 
     .timer {
       gap: 1rem;
+    }
+
+    .video-container {
+      max-width: 100%;
     }
   }
 </style>
