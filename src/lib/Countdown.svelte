@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import confetti from 'canvas-confetti';
+  import { onMount, onDestroy } from "svelte";
+  import confetti from "canvas-confetti";
 
-  const targetDate = new Date('2025-03-31T00:00:00');
+  const targetDate = new Date("2025-03-31T00:00:00");
   let days = 0;
   let hours = 0;
   let minutes = 0;
@@ -14,20 +14,25 @@
     const now = new Date();
     const difference = targetDate.getTime() - now.getTime();
 
-    if (difference <= 0) {
+    if (difference > 0) {
       isTargetReached = true;
       clearInterval(interval);
-      
+
       // Trigger confetti
-      const duration = 5 * 1000;
+      const duration = 100 * 1000;
       const animationEnd = Date.now() + duration;
-      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+      const defaults = {
+        startVelocity: 100,
+        spread: 360,
+        ticks: 60,
+        zIndex: 0,
+      };
 
       function randomInRange(min: number, max: number) {
         return Math.random() * (max - min) + min;
       }
 
-      const interval = setInterval(function() {
+      interval = setInterval(function () {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -35,18 +40,23 @@
         }
 
         const particleCount = 50 * (timeLeft / duration);
-        
+
         confetti({
           ...defaults,
           particleCount,
-          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
         });
         confetti({
           ...defaults,
           particleCount,
-          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+          origin: { x: randomInRange(0.7, 0.5), y: Math.random() - 0.2 },
         });
-      }, 250);
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        });
+      }, 500);
 
       return;
     }
@@ -74,9 +84,9 @@
 {:else}
   <div class="countdown">
     <div class="gif-container">
-      <img 
-        src="https://media.giphy.com/media/9SIXFu7bIUYHhFc19G/giphy.gif" 
-        alt="Anxious waiting gif" 
+      <img
+        src="https://media.giphy.com/media/9SIXFu7bIUYHhFc19G/giphy.gif"
+        alt="Anxious waiting gif"
         class="anxious-gif"
       />
     </div>
@@ -115,7 +125,7 @@
 
   h2 {
     margin: 1rem 0;
-    color: #FF6B00;
+    color: #ff6b00;
     font-size: clamp(1.5rem, 4vw, 2.5rem);
   }
 
@@ -137,7 +147,7 @@
   .number {
     font-size: clamp(2rem, 6vw, 4.5rem);
     font-weight: bold;
-    color: #FF6B00;
+    color: #ff6b00;
     line-height: 1;
   }
 
@@ -152,14 +162,28 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    width: 100%;
     background: #fff;
+  }
+
+  @keyframes backgroundBlink {
+    0% {
+      background-color: white;
+    }
+    50% {
+      background-color: black;
+    }
+    100% {
+      background-color: white;
+    }
   }
 
   .celebration h1 {
     font-size: clamp(2.5rem, 8vw, 5rem);
-    color: #FF6B00;
+    color: #ff6b00;
     text-align: center;
     animation: pulse 2s infinite;
+    text-transform: uppercase;
   }
 
   .gif-container {
@@ -176,16 +200,22 @@
   }
 
   @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 
   @media (max-width: 480px) {
     .countdown {
       padding: 0.5rem;
     }
-    
+
     .timer {
       gap: 1rem;
     }
