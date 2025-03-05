@@ -14,7 +14,7 @@
     const now = new Date();
     const difference = targetDate.getTime() - now.getTime();
 
-    if (difference > 0) {
+    if (difference <= 0) {
       isTargetReached = true;
       clearInterval(interval);
 
